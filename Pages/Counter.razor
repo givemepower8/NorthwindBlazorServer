@@ -1,0 +1,53 @@
+﻿@page "/counter"
+@using System.Threading;
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @_currentCount</p>
+
+<p role="status">Current time: @System.DateTime.Now.ToString("G")</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<button @onclick=@StartCountdown>Start Timer</button>
+
+<button @onclick=@StopCountdown>Stop Timer</button>
+
+@code {
+    private int _currentCount = 0;
+
+    private Timer _timer; 
+
+    private void IncrementCount()
+    {
+        _currentCount++;
+    }
+
+    void StartCountdown()
+    {
+        if (_timer == null)
+        {
+            _timer = new Timer(new TimerCallback(_ =>
+            {
+                if (_currentCount > 0)
+                {
+                    _currentCount--;
+
+                    InvokeAsync(() =>
+                    {
+                        StateHasChanged();
+                    });
+                }
+            }), null, 1000, 1000);
+        }
+        else
+        {
+            _timer.Change(1000, 1000);
+        }
+    }
+
+    void StopCountdown() => _timer.Change(Timeout.Infinite, Timeout.Infinite);
+    
+}
