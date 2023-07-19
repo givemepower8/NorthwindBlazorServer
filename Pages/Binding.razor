@@ -1,0 +1,25 @@
+﻿@page "/binding"
+
+@using System.Text.Json
+
+<h3>binding</h3>
+
+@foreach (var element in list.Select((e, i) => new { Effect = e, Index = i}))
+{
+    <p>
+        <label for="@($"effect{element.Index}")">@element.Index</label>
+        <input id="@($"effect{element.Index}")" value="@element.Effect"
+               @onchange="@(e => list[element.Index] = e.Value.ToString())" />
+    </p>
+}
+
+<pre>
+    @(JsonSerializer.Serialize(list, new JsonSerializerOptions() { WriteIndented = true }))
+</pre>
+
+@code {
+
+    private List<string> list = new List<string>() { "a", "b", "c" };
+
+}
+
