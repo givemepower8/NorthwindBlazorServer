@@ -1,0 +1,32 @@
+﻿@page "/binding"
+
+@using System.Text.Json
+
+<h3>binding</h3>
+
+@foreach (var element in words.Select((e, i) => new { Word = e, Index = i }))
+{
+    <p>
+        <label for="@($"words{element.Index}")">@element.Index</label>
+        <input id="@($"words{element.Index}")" value="@element.Word"
+        @onchange="@(e => words[element.Index] = e.Value.ToString())" />
+        <span @onclick="@(e => words.RemoveAt(element.Index))">X</span>
+    </p>
+}
+
+<input placeholder="Something" @bind="word" />
+<button @onclick="@(e => words.Add(word))">Add </button>
+
+<br/>
+
+<pre>
+    @(JsonSerializer.Serialize(words, new JsonSerializerOptions() { WriteIndented = true }))
+</pre>
+
+@code {
+
+    private string? word;
+    private List<string> words = new List<string>() { "one", "two", "three" };
+
+}
+
