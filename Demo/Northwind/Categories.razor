@@ -7,8 +7,8 @@
 
 @foreach (var category in categories)
 {
-    <p> @category.CategoryName</p>
     <img src="@(ByteArrayToImageUrl(category.Picture!))" alt="@category.CategoryName" />
+    <p> @category.CategoryName</p>
     <br />
 }
 
@@ -27,7 +27,7 @@
     {
         var imageBytes = array.ToArray().Skip(78).ToArray();
         string imageBase64 = Convert.ToBase64String(imageBytes);
-        return string.Format("data:image/gif;base64,{0}", imageBase64);         
+        return string.Format("data:image/gif;base64,{0}", imageBase64);
     }
 
     protected override async Task OnInitializedAsync()
