@@ -1,4 +1,4 @@
-﻿namespace NorthwindBlazorServer.Data;
+﻿namespace NorthwindBlazorServer.Demo;
 
 public class TodoItem
 {
