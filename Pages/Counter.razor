@@ -18,7 +18,7 @@
 @code {
     private int _currentCount = 0;
 
-    private Timer _timer; 
+    private Timer? _timer; 
 
     private void IncrementCount()
     {
@@ -48,6 +48,6 @@
         }
     }
 
-    void StopCountdown() => _timer.Change(Timeout.Infinite, Timeout.Infinite);
+    void StopCountdown() => _timer?.Change(Timeout.Infinite, Timeout.Infinite);
     
 }
