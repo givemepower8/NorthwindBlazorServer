@@ -1,0 +1,37 @@
+﻿@page "/categories"
+
+@using Microsoft.EntityFrameworkCore;
+@using NorthwindBlazorServer.Models;
+
+<h3>Categories</h3>
+
+@foreach (var category in categories)
+{
+    <p> @category.CategoryName</p>
+    <img src="@(ByteArrayToImageUrl(category.Picture!))" alt="@category.CategoryName" />
+    <br />
+}
+
+@code {
+    private List<Category> categories = new();
+
+    private async Task<List<Category>> GetAllCategories()
+    {
+        using (var db = new NorthwindContext())
+        {
+            return await db.Categories.ToListAsync();
+        }
+    }
+
+    private string ByteArrayToImageUrl(byte[] array)
+    {
+        var imageBytes = array.ToArray().Skip(78).ToArray();
+        string imageBase64 = Convert.ToBase64String(imageBytes);
+        return string.Format("data:image/gif;base64,{0}", imageBase64);         
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await GetAllCategories();
+    }
+}

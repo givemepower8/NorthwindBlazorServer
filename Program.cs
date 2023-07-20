@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.Web;
 using NorthwindBlazorServer.Data;
 using Microsoft.AspNetCore.ResponseCompression;
 using NorthwindBlazorServer.Hubs;
+using NorthwindBlazorServer.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +13,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddResponseCompression(opts =>
 {
-    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-          new[] { "application/octet-stream" });
+	opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+		  new[] { "application/octet-stream" });
 });
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddDbContext<NorthwindContext>(options =>
+			options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Northwind;Trusted_Connection=True;"));
 
 var app = builder.Build();
 
