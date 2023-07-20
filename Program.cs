@@ -16,8 +16,10 @@ builder.Services.AddResponseCompression(opts =>
 	opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
 		  new[] { "application/octet-stream" });
 });
+
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddDbContext<NorthwindContext>(options =>
+
+builder.Services.AddDbContextFactory<NorthwindContext>(options =>
 			options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Northwind;Trusted_Connection=True;"));
 
 var app = builder.Build();
