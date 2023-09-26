@@ -20,7 +20,7 @@ builder.Services.AddResponseCompression(opts =>
 builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddDbContextFactory<NorthwindContext>(options =>
-			options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Northwind;Trusted_Connection=True;"));
+			options.UseSqlServer(builder.Configuration.GetConnectionString("Northwind")));
 
 var app = builder.Build();
 

@@ -1,0 +1,20 @@
+﻿@page "/products"
+
+@inject IDbContextFactory<NorthwindContext> DbFactory
+
+<h3>Products</h3>
+
+@code {
+    private List<Product> products = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await GetAllProducts();
+    }
+        
+    private async Task<List<Product>> GetAllProducts()
+    {
+        using var context = DbFactory.CreateDbContext();
+        return await context.Products.AsNoTracking().ToListAsync();
+    }
+}
