@@ -4,18 +4,18 @@
 
 <h3>Categories</h3>
 
-@foreach (var category in categories)
+@foreach (var category in _categories)
 {
     <img src="@(ByteArrayToImageUrl(category.Picture!))" alt="@category.CategoryName" />
     <p> @category.CategoryName</p>
 }
 
 @code {
-    private List<Category> categories = new();
+    private List<Category> _categories = new();
 
     private async Task<List<Category>> GetAllCategories()
     {
-        using var context = DbFactory.CreateDbContext();
+        await using var context = await DbFactory.CreateDbContextAsync();
         return await context.Categories.AsNoTracking().ToListAsync();
     }
 
@@ -23,11 +23,11 @@
     {
         var imageBytes = array.ToArray().Skip(78).ToArray();
         string imageBase64 = Convert.ToBase64String(imageBytes);
-        return string.Format("data:image/gif;base64,{0}", imageBase64);
+        return $"data:image/gif;base64,{imageBase64}";
     }
 
     protected override async Task OnInitializedAsync()
     {
-        categories = await GetAllCategories();
+        _categories = await GetAllCategories();
     }
 }
